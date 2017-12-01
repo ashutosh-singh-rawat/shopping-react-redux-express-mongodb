@@ -12,6 +12,7 @@ export function booksReducers(state={books: []}, action){
 			// return state = action.payload;
 			// let books = state.books.concat(action.payload);
 			// return {books};
+			
 			return {books: [...state.books, ...action.payload]};
 			break;
 

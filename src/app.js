@@ -111,3 +111,14 @@ store.dispatch({
 		title: 'new title'
 	}
 })
+
+
+//CART ACTIONS
+
+// ADD TO CART 
+store.dispatch({
+	type: 'ADD_TO_CART', 
+	payload: [{
+		id: 2
+	}]
+})
