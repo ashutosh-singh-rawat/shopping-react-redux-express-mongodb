@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {render} from 'react-dom';
+import {Provider} from 'react-redux';
  
 import {applyMiddleware,createStore} from 'redux';
 import logger from 'redux-logger';
@@ -29,8 +30,11 @@ import BookList from './components/pages/booksList';
 
 
 render(
-	<BookList/>, document.getElementById('app-root')
-);
+	<Provider store={store}>
+		<BookList/>
+	</Provider>, 
+	document.getElementById('app-root')
+); 
 
 //STEP 2 create and dispatch actions
 // store.dispatch({type: 'INCREMENT', payload: 1})
@@ -59,20 +63,20 @@ store.dispatch(postBooks(
 ))
 
 // DISPATCH a delete action
-store.dispatch(deleteBooks(
-	{
-		id: 2
-	}
-))
+// store.dispatch(deleteBooks(
+// 	{
+// 		id: 2
+// 	}
+// ))
 
 
 // DISPATCH a update action
-store.dispatch(updateBooks(
-	{
-		id: 1,
-		title: 'new title'
-	}
-))
+// store.dispatch(updateBooks(
+// 	{
+// 		id: 1,
+// 		title: 'new title'
+// 	}
+// ))
 
 
 //CART ACTIONS
