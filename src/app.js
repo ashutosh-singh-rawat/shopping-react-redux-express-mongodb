@@ -1,6 +1,7 @@
 "use strict"
 
-import {createStore} from 'redux';
+import {applyMiddleware,createStore} from 'redux';
+import logger from 'redux-logger';
 
 // IMPORT COMBINED REDUCERS
 import reducers from './reducers'
@@ -54,12 +55,13 @@ import {postBooks, deleteBooks, updateBooks} from './actions/booksActions';
 // }
 
 //STEP 1 create the store
-const store = createStore(reducers);
+const middleware = applyMiddleware(logger);
+const store = createStore(reducers, middleware);
 
-store.subscribe(function () {
-	console.log('current stage is: ', store.getState());
-	// console.log('current price: ', store.getState()[1].price);
-})
+// store.subscribe(function () {
+// 	console.log('current stage is: ', store.getState());
+// 	// console.log('current price: ', store.getState()[1].price);
+// })
 
 //STEP 2 create and dispatch actions
 // store.dispatch({type: 'INCREMENT', payload: 1})
