@@ -45,22 +45,24 @@ render(
 // store.dispatch({type: 'DECREMENT', payload: 1})
 // store.dispatch({type: 'DECREMENT', payload: 1})
 // store.dispatch({type: 'DECREMENT', payload: 1})
-store.dispatch(postBooks(
-	[
-		{
-			id: 1,
-			title: 'this is the book title',
-			description: 'this is the book description',
-			price: 33.33
-		},
-		{
-			id: 2,
-			title: 'this is the second book title',
-			description: 'this is the second book description',
-			price: 500
-		}
-	]
-))
+
+
+// store.dispatch(postBooks(
+// 	[
+// 		{
+// 			id: 1,
+// 			title: 'this is the book title',
+// 			description: 'this is the book description',
+// 			price: 33.33
+// 		},
+// 		{
+// 			id: 2,
+// 			title: 'this is the second book title',
+// 			description: 'this is the second book description',
+// 			price: 500
+// 		}
+// 	]
+// ))
 
 // DISPATCH a delete action
 // store.dispatch(deleteBooks(

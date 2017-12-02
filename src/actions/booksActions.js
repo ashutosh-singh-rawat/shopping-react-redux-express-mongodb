@@ -1,5 +1,11 @@
 "use strict"
 
+// GET BOOKS
+export function getBooks(){
+	return {
+		type: 'GET_BOOKS'
+	}
+}
 
 //POST A BOOK
 export function postBooks(books){
