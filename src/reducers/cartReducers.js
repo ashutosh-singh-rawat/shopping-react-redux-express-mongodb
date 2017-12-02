@@ -9,6 +9,10 @@ export function cartReducers(state={cart: []}, action){
 			// return {cart: [...state.cart, ...action.payload]};
 			return {cart: [...state, ...action.payload]};
 			break;
+
+		case 'DELETE_CART_ITEM':
+			return {cart: [...state, ...action.payload]};
+			break;
 	}
 	return state;
 

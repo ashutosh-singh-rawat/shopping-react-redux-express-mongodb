@@ -3,8 +3,20 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Panel, Row, Col, Well, Button, ButtonGroup, Label} from 'react-bootstrap';
 
+import {bindActionCreators} from 'redux';
+
+import {deleteCartItem} from '../../actions/cartActions';
 
 class Cart extends React.Component{
+	onDelete(_id){
+		const currentBookToDelete = this.props.cart;
+		const indexToDelete = currentBookToDelete.findIndex(function(cart){
+			return cart._id === _id;
+		})
+		let cartAfterDelete = [...currentBookToDelete.slice(0, indexToDelete), ...currentBookToDelete.slice(indexToDelete+1)]
+		this.props.deleteCartItem(cartAfterDelete)
+	}
+
 	render(){
 		if(this.props.cart[0]){
 			return(
@@ -40,13 +52,13 @@ class Cart extends React.Component{
 								<Button bsStyle='default' bsSize='small'>-</Button>
 								<Button bsStyle='default' bsSize='small'>+</Button>
 								<span>     </span>
-								<Button bsStyle='danger' bsSize='small'>DELETE</Button>
+								<Button onClick={this.onDelete.bind(this, cartArr._id)} bsStyle='danger' bsSize='small'>DELETE</Button>
 							</ButtonGroup>
 						</Col>
 					</Row>
 				</Panel>
 			)
-		});
+		}, this);
 		return(
 			<Panel header='Cart' bsStyle='primary'>
 				{cartItemList}
@@ -60,4 +72,8 @@ function mapStateToProps(state) {
 		cart: state.cart.cart
 	}
 }
-export default connect(mapStateToProps)(Cart);
+
+function mapDispatchToProps(dispatch){
+	return bindActionCreators({deleteCartItem},dispatch)
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
