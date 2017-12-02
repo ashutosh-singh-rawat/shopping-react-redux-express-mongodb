@@ -29008,12 +29008,12 @@ exports.booksReducers = booksReducers;
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var initial_books = [{
-	id: 1,
+	_id: 1,
 	title: 'this is the book title',
 	description: 'this is the book description',
 	price: 33.33
 }, {
-	id: 2,
+	_id: 2,
 	title: 'this is the second book title',
 	description: 'this is the second book description',
 	price: 500
@@ -29045,7 +29045,7 @@ function booksReducers() {
 		case 'DELETE_BOOK':
 			var currentBookToDelete = [].concat(_toConsumableArray(state.books));
 			var indexToDelete = currentBookToDelete.findIndex(function (book) {
-				return book.id === action.payload.id;
+				return book._id === action.payload._id;
 			});
 			return { books: [].concat(_toConsumableArray(currentBookToDelete.slice(0, indexToDelete)), _toConsumableArray(currentBookToDelete.slice(indexToDelete + 1))) };
 			break;
@@ -29053,7 +29053,7 @@ function booksReducers() {
 		case 'UPDATE_BOOK':
 			var currentBookToUpdate = [].concat(_toConsumableArray(state.books));
 			var indexToUpdate = currentBookToUpdate.findIndex(function (book) {
-				return book.id === action.payload.id;
+				return book._id === action.payload._id;
 			});
 
 			var newBookToUpdate = _extends({}, currentBookToUpdate[indexToUpdate], {
@@ -29186,9 +29186,9 @@ var BooksList = function (_React$Component) {
 			var booksList = this.props.books.map(function (booksArr) {
 				return _react2.default.createElement(
 					_reactBootstrap.Col,
-					{ xs: 12, sm: 6, md: 4, key: booksArr.id },
+					{ xs: 12, sm: 6, md: 4, key: booksArr._id },
 					_react2.default.createElement(_bookItem2.default, {
-						id: booksArr.id,
+						_id: booksArr._id,
 						title: booksArr.title,
 						description: booksArr.description,
 						price: booksArr.price
@@ -40540,7 +40540,7 @@ var BookItem = function (_React$Component) {
 		key: 'handleCart',
 		value: function handleCart() {
 			var book = [].concat(_toConsumableArray(this.props.cart), [{
-				id: this.props.id,
+				_id: this.props._id,
 				title: this.props.title,
 				description: this.props.description,
 				price: this.props.price
@@ -40781,7 +40781,7 @@ var Cart = function (_React$Component) {
 			var cartItemList = this.props.cart.map(function (cartArr) {
 				return _react2.default.createElement(
 					_reactBootstrap.Panel,
-					{ key: cartArr.id },
+					{ key: cartArr._id },
 					_react2.default.createElement(
 						_reactBootstrap.Row,
 						null,
@@ -40792,6 +40792,59 @@ var Cart = function (_React$Component) {
 								'h6',
 								null,
 								cartArr.title
+							),
+							_react2.default.createElement(
+								'span',
+								null,
+								'    '
+							)
+						),
+						_react2.default.createElement(
+							_reactBootstrap.Col,
+							{ xs: 12, sm: 2 },
+							_react2.default.createElement(
+								'h6',
+								null,
+								'usd. ',
+								cartArr.price
+							)
+						),
+						_react2.default.createElement(
+							_reactBootstrap.Col,
+							{ xs: 12, sm: 2 },
+							_react2.default.createElement(
+								'h6',
+								null,
+								'qty. ',
+								_react2.default.createElement(_reactBootstrap.Label, { bsStyle: 'success' })
+							)
+						),
+						_react2.default.createElement(
+							_reactBootstrap.Col,
+							{ xs: 6, sm: 4 },
+							_react2.default.createElement(
+								_reactBootstrap.ButtonGroup,
+								{ style: { minWidth: '300px' } },
+								_react2.default.createElement(
+									_reactBootstrap.Button,
+									{ bsStyle: 'default', bsSize: 'small' },
+									'-'
+								),
+								_react2.default.createElement(
+									_reactBootstrap.Button,
+									{ bsStyle: 'default', bsSize: 'small' },
+									'+'
+								),
+								_react2.default.createElement(
+									'span',
+									null,
+									'     '
+								),
+								_react2.default.createElement(
+									_reactBootstrap.Button,
+									{ bsStyle: 'danger', bsSize: 'small' },
+									'DELETE'
+								)
 							)
 						)
 					)
