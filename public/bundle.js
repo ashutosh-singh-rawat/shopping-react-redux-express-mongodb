@@ -46766,6 +46766,8 @@ var _footer = __webpack_require__(393);
 
 var _footer2 = _interopRequireDefault(_footer);
 
+var _reactRedux = __webpack_require__(45);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -46789,7 +46791,7 @@ var Main = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				null,
-				_react2.default.createElement(_menu2.default, null),
+				_react2.default.createElement(_menu2.default, { cartItemsNumber: this.props.totalQty }),
 				this.props.children,
 				_react2.default.createElement(_footer2.default, null)
 			);
@@ -46799,7 +46801,12 @@ var Main = function (_React$Component) {
 	return Main;
 }(_react2.default.Component);
 
-exports.default = Main;
+function mapStateToProps(state) {
+	return {
+		totalQty: state.cart.totalQty
+	};
+}
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(Main);
 
 /***/ }),
 /* 392 */
@@ -46886,11 +46893,13 @@ var Menu = function (_React$Component) {
 							_reactBootstrap.NavItem,
 							{ eventKey: 2, href: '/cart' },
 							'Your Cart',
-							_react2.default.createElement(
+							this.props.cartItemsNumber > 0 ? _react2.default.createElement(
 								_reactBootstrap.Badge,
 								{ className: 'badge' },
-								'1'
-							)
+								' ',
+								this.props.cartItemsNumber,
+								' '
+							) : ''
 						)
 					)
 				)
