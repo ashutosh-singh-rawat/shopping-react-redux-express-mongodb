@@ -27,11 +27,17 @@ const store = createStore(reducers, middleware);
 
 //IMPORT 
 import BookList from './components/pages/booksList';
+import Menu from './components/menu';
+import Footer from './components/footer';
 
 
 render(
 	<Provider store={store}>
-		<BookList/>
+		<div>
+			<Menu />
+			<BookList/>
+			<Footer/>
+		</div>
 	</Provider>, 
 	document.getElementById('app-root')
 ); 
