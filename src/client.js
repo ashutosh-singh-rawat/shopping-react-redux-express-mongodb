@@ -4,9 +4,10 @@ import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
- 
+
 import {applyMiddleware,createStore} from 'redux';
 import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 
 // IMPORT COMBINED REDUCERS
 import reducers from './reducers'
@@ -18,7 +19,7 @@ import {postBooks, deleteBooks, updateBooks} from './actions/booksActions';
 //STEP 3 define reducers
 
 //STEP 1 create the store
-const middleware = applyMiddleware(logger);
+const middleware = applyMiddleware(thunk, logger);
 const store = createStore(reducers, middleware);
 
 // store.subscribe(function () {
@@ -26,7 +27,7 @@ const store = createStore(reducers, middleware);
 // 	// console.log('current price: ', store.getState()[1].price);
 // })
 
-//IMPORT 
+//IMPORT
 import BookList from './components/pages/booksList';
 import Cart from './components/pages/cart';
 import BooksForm from './components/pages/booksForm';
@@ -45,9 +46,9 @@ const Routes = (
 )
 
 render(
-	Routes, 
+	Routes,
 	document.getElementById('app-root')
-); 
+);
 
 //STEP 2 create and dispatch actions
 // store.dispatch({type: 'INCREMENT', payload: 1})
@@ -96,5 +97,5 @@ render(
 
 //CART ACTIONS
 
-// ADD TO CART 
+// ADD TO CART
 // store.dispatch(addToCart([{id: 1}]))
