@@ -1,18 +1,18 @@
 "use strict"
 //BOOKS REDUCERS
 var initial_books = [
-		{
-			_id: 1,
-			title: 'this is the book title',
-			description: 'this is the book description',
-			price: 33.33
-		},
-		{
-			_id: 2,
-			title: 'this is the second book title',
-			description: 'this is the second book description',
-			price: 500
-		}
+		// {
+		// 	_id: 1,
+		// 	title: 'this is the book title',
+		// 	description: 'this is the book description',
+		// 	price: 33.33
+		// },
+		// {
+		// 	_id: 2,
+		// 	title: 'this is the second book title',
+		// 	description: 'this is the second book description',
+		// 	price: 500
+		// }
 	]
 export function booksReducers(state={
 	books: initial_books
@@ -24,14 +24,16 @@ export function booksReducers(state={
 		// case 'DECREMENT':
 		// 	return state - action.payload;
 		// 	break;
+		
 		case 'GET_BOOKS':
-			return {...state, books: [...state.books]};
+			// return {...state, books: [...state.books]};
+			return {...state, books: [...action.payload]};
 			break;
 		case 'POST_BOOK':
 			// return state = action.payload;
 			// let books = state.books.concat(action.payload);
 			// return {books};
-			
+
 			return {books: [...state.books, ...action.payload]};
 			break;
 

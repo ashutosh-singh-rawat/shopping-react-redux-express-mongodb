@@ -5448,8 +5448,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // GET BOOKS
 function getBooks() {
-	return {
-		type: 'GET_BOOKS'
+	// return {
+	// 	type: 'GET_BOOKS'
+	// }
+	return function (dispatch) {
+		_axios2.default.get('/books').then(function (response) {
+			dispatch({ type: 'GET_BOOKS', payload: response.data });
+		}).catch(function (err) {
+			dispatch({ type: 'GTE_BOOKS_REJECTED', payload: err });
+		});
 	};
 }
 
@@ -5471,9 +5478,16 @@ function postBooks(books) {
 
 //DELETE A BOOK
 function deleteBooks(id) {
-	return {
-		type: 'DELETE_BOOK',
-		payload: id
+	// return {
+	// 	type: 'DELETE_BOOK',
+	// 	payload: id
+	// }
+	return function (dispatch) {
+		_axios2.default.delete('/books/' + id).then(function (response) {
+			dispatch({ type: 'DELETE_BOOK', payload: id });
+		}).catch(function (err) {
+			dispatch({ type: 'DLELETE_BOOK_REJECTED', payload: "There was an error while deleting a book" });
+		});
 	};
 }
 
@@ -35820,17 +35834,20 @@ exports.booksReducers = booksReducers;
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-var initial_books = [{
-	_id: 1,
-	title: 'this is the book title',
-	description: 'this is the book description',
-	price: 33.33
-}, {
-	_id: 2,
-	title: 'this is the second book title',
-	description: 'this is the second book description',
-	price: 500
-}];
+var initial_books = [
+	// {
+	// 	_id: 1,
+	// 	title: 'this is the book title',
+	// 	description: 'this is the book description',
+	// 	price: 33.33
+	// },
+	// {
+	// 	_id: 2,
+	// 	title: 'this is the second book title',
+	// 	description: 'this is the second book description',
+	// 	price: 500
+	// }
+];
 function booksReducers() {
 	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
 		books: initial_books
@@ -35844,8 +35861,10 @@ function booksReducers() {
 		// case 'DECREMENT':
 		// 	return state - action.payload;
 		// 	break;
+
 		case 'GET_BOOKS':
-			return _extends({}, state, { books: [].concat(_toConsumableArray(state.books)) });
+			// return {...state, books: [...state.books]};
+			return _extends({}, state, { books: [].concat(_toConsumableArray(action.payload)) });
 			break;
 		case 'POST_BOOK':
 			// return state = action.payload;

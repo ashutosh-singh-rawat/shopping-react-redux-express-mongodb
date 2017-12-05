@@ -2,8 +2,17 @@
 import axios from 'axios';
 // GET BOOKS
 export function getBooks(){
-	return {
-		type: 'GET_BOOKS'
+	// return {
+	// 	type: 'GET_BOOKS'
+	// }
+	return function (dispatch) {
+		axios.get('/books')
+			.then(function(response) {
+				dispatch({type: 'GET_BOOKS', payload: response.data})
+			})
+			.catch(function (err) {
+				dispatch({type: 'GTE_BOOKS_REJECTED', payload: err})
+			})
 	}
 }
 
@@ -27,10 +36,20 @@ export function postBooks(books){
 
 //DELETE A BOOK
 export function deleteBooks(id){
-	return {
-		type: 'DELETE_BOOK',
-		payload: id
-	}
+	// return {
+	// 	type: 'DELETE_BOOK',
+	// 	payload: id
+	// }
+	return function (dispatch) {
+    axios.delete('/books/' + id)
+      .then(function (response) {
+        dispatch({type: 'DELETE_BOOK', payload: id })
+      })
+      .catch(function (err) {
+        dispatch({type: 'DLELETE_BOOK_REJECTED', payload: "There was an error while deleting a book"})
+      })
+  }
+
 }
 
 //UPDATE A BOOK
