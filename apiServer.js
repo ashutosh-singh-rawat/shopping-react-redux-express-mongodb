@@ -1,9 +1,11 @@
-var express = require('express');
+var express       = require('express');
 // var path = require('path');
 // var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+var logger        = require('morgan');
+var cookieParser  = require('cookie-parser');
+var bodyParser    = require('body-parser');
+const session     = require('express-session');
+const MongoStore  = require('connect-mongo')(session);
 
 // var index = require('./routes/index');
 // var users = require('./routes/users');
@@ -23,6 +25,39 @@ mongoose.connect('mongodb://localhost:27017/bookshop', {
   useMongoClient: true,
   /* other options */
 });
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, '#MONGO DB - connection error: '))
+
+
+// ----->>> SET UP SESSION <<<-----
+app.use(session({
+  secret: 'mySecreteString',
+  saveUninitialized: false,
+  resave: false,
+  cookie: {maxAge: 1000 * 60 * 60 * 24 * 2}, // 2 days in milliseconds
+  store: new MongoStore({mongooseConnection: db, ttl: 2 * 24 * 60 * 60})
+}));
+// SAVE TO SESSION
+app.post('/cart', function(req, res){
+  var cart = req.body;
+  req.session.cart = cart;
+  req.session.save(function (err) {
+    if(err){
+      throw err;
+    }
+    res.json(req.session.cart);
+  })
+});
+
+// GET SESSION CART API
+
+app.get('/cart', function (req, res) {
+  if(typeof(req.session.cart) !== 'undefined'){
+    res.json(req.session.cart);
+  }
+});
+//END SESSION SET UP
+
 
 var Books = require('./models/books.js');
 

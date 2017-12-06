@@ -38,8 +38,8 @@ const Routes = (
 		<Router history={browserHistory}>
 			<Route path='/' component={Main} >
 				<IndexRoute component={BookList} />
-				<Route path='/admin' component={BooksForm} />
 				<Route path='/cart' component={Cart} />
+				<Route path='/admin' component={BooksForm} />
 			</Route>
 		</Router>
 	</Provider>

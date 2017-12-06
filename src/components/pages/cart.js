@@ -5,9 +5,12 @@ import {Panel, Row, Col, Well, Button, ButtonGroup, Label, Modal} from 'react-bo
 
 import {bindActionCreators} from 'redux';
 
-import {deleteCartItem, updateCart} from '../../actions/cartActions';
+import {deleteCartItem, updateCart, getCart} from '../../actions/cartActions';
 
 class Cart extends React.Component{
+	componentDidMount(){
+		this.props.getCart();
+	}
 	onDelete(_id){
 		const currentBookToDelete = this.props.cart;
 		const indexToDelete = currentBookToDelete.findIndex(function(cart){
@@ -41,6 +44,7 @@ class Cart extends React.Component{
 	}
 
 	render(){
+		debugger
 		if(this.props.cart[0]){
 			return(
 				this.renderCart()
@@ -114,14 +118,21 @@ class Cart extends React.Component{
 }
 
 function mapStateToProps(state) {
+	debugger
 	return {
-		cart: 			state.cart.cart,
+		cart: 				state.cart.cart,
 		totalAmount: 	state.cart.totalAmount,
-
 	}
 }
 
 function mapDispatchToProps(dispatch){
-	return bindActionCreators({deleteCartItem, updateCart},dispatch)
+	return bindActionCreators(
+		{deleteCartItem, updateCart, getCart},
+		dispatch
+	)
 }
+//
+// function mapDispatchToProps(dispatch){
+// 	return bindActionCreators({deleteCartItem, updateCart, getCart},dispatch)
+// }
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

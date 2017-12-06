@@ -2,22 +2,29 @@
 
 export function cartReducers(state={cart: []}, action){
 	switch(action.type){
+		case 'GET_CART':
+			return {...state,
+				cart: 				action.payload,
+				totalAmount: 	totals(action.payload).amount,
+				totalQty: 		totals(action.payload).qty
+			};
+			break;
 		case 'ADD_TO_CART':
 			// console.log("====ACTION ADD_TO_CART =======")
 			// console.log(state.cart)
 			// console.log(...action.payload)
 			// return {cart: [...state.cart, ...action.payload]};
 			return {...state,
-				cart: 			action.payload,
+				cart: 				action.payload,
 				totalAmount: 	totals(action.payload).amount,
 				totalQty: 		totals(action.payload).qty
 			};
 			break;
-
+ 
 		case 'DELETE_CART_ITEM':
 			// return {cart: [...state, ...action.payload]};
 			return {...state,
-				cart: 			action.payload,
+				cart: 			  action.payload,
 				totalAmount: 	totals(action.payload).amount,
 				totalQty: 		totals(action.payload).qty
 			};
