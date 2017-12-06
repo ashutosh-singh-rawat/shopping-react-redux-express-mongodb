@@ -44,7 +44,6 @@ class Cart extends React.Component{
 	}
 
 	render(){
-		debugger
 		if(this.props.cart[0]){
 			return(
 				this.renderCart()
@@ -118,7 +117,6 @@ class Cart extends React.Component{
 }
 
 function mapStateToProps(state) {
-	debugger
 	return {
 		cart: 				state.cart.cart,
 		totalAmount: 	state.cart.totalAmount,

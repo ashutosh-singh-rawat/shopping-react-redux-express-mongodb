@@ -21,13 +21,14 @@ class BooksList extends React.Component{
 		const booksList = this.props.books.map(function(booksArr){
 			return(
 				<Col xs={12} sm={6} md={4} key={booksArr._id}>
-					<BookItem 
+					<BookItem
 						_id={booksArr._id}
 						title={booksArr.title}
 						description={booksArr.description}
+						images={booksArr.images}
 						price={booksArr.price}
 					/>
-				</Col> 
+				</Col>
 			)
 		});
 		return(
@@ -36,9 +37,9 @@ class BooksList extends React.Component{
 					<Cart />
 				</Row>
 				<Row style={{marginTop: '15px'}}>
-					<Col xs={12} sm={6}>
+					{/* <Col xs={12} sm={6}>
 						<BooksForm/>
-					</Col>
+					</Col> */}
 					{booksList}
 				</Row>
 			</Grid>
@@ -54,7 +55,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
 	return bindActionCreators(
-		{getBooks: getBooks}, 
+		{getBooks: getBooks},
 		dispatch
 	)
 }
