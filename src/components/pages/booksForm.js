@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {findDOMNode} from 'react-dom';
 
-import {postBooks, deleteBooks, getBooks} from '../../actions/booksActions';
+import {postBooks, deleteBooks, getBooks, resetButton} from '../../actions/booksActions';
 import axios from 'axios';
 
 class BooksForm extends React.Component{
@@ -51,6 +51,15 @@ class BooksForm extends React.Component{
     this.setState({
       img: '/images/' + img
     })
+  }
+
+  resetForm(){
+    // RESET THE BUTTON
+    this.props.resetButton();
+    findDOMNode(this.refs.title).value  = '';
+    findDOMNode(this.refs.description).value  = '';
+    findDOMNode(this.refs.price).value = '';
+    this.setState({img: ''})
   }
 
 	render(){
@@ -119,7 +128,11 @@ class BooksForm extends React.Component{
 
             </FormGroup>
 
-            <Button onClick={this.handleSubmit.bind(this)} bsStyle='primary'> Save Book </Button>
+            <Button onClick={!this.props.msg ?  this.handleSubmit.bind(this) : this.resetForm.bind(this)}
+              bsStyle={!this.props.style ? 'primary' : this.props.style}
+            >
+              {(!this.props.msg) ? ('Save book') : (this.props.msg)}
+            </Button>
             </Panel>
             <Panel style={{marginTop: '25px'}}>
             <FormGroup controlId='formControlsSelect'>
@@ -139,10 +152,12 @@ class BooksForm extends React.Component{
 }
 function mapStateToProps(state) {
 	return {
-		books: state.books.books
+		books:  state.books.books,
+    msg:    state.books.msg,
+    style:  state.books.style
 	}
 }
 function mapDispatchToProps(dispatch){
-	return bindActionCreators({postBooks, deleteBooks, getBooks}, dispatch)
+	return bindActionCreators({postBooks, deleteBooks, getBooks, resetButton}, dispatch)
 }
 export default connect(mapStateToProps, mapDispatchToProps)(BooksForm);

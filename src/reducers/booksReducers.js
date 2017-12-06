@@ -24,7 +24,7 @@ export function booksReducers(state={
 		// case 'DECREMENT':
 		// 	return state - action.payload;
 		// 	break;
-		
+
 		case 'GET_BOOKS':
 			// return {...state, books: [...state.books]};
 			return {...state, books: [...action.payload]};
@@ -34,7 +34,13 @@ export function booksReducers(state={
 			// let books = state.books.concat(action.payload);
 			// return {books};
 
-			return {books: [...state.books, ...action.payload]};
+			return {books: [...state.books, ...action.payload], msg: 'Saved! Click to continue', style: 'success'};
+			break;
+		case 'POST_BOOK_REJECTED':
+			return {...state, msg: 'Please, try again', style: 'danger'};
+			break;
+		case 'RESET_BUTTON':
+			return {...state, msg: null, style: 'primary'};
 			break;
 
 		case 'DELETE_BOOK':
