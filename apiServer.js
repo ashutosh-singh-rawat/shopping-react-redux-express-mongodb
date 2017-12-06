@@ -38,6 +38,7 @@ app.use(session({
   store: new MongoStore({mongooseConnection: db, ttl: 2 * 24 * 60 * 60})
 }));
 // SAVE TO SESSION
+
 app.post('/cart', function(req, res){
   var cart = req.body;
   req.session.cart = cart;
@@ -50,7 +51,6 @@ app.post('/cart', function(req, res){
 });
 
 // GET SESSION CART API
-
 app.get('/cart', function (req, res) {
   if(typeof(req.session.cart) !== 'undefined'){
     res.json(req.session.cart);
@@ -118,6 +118,25 @@ app.put('/books/:_id', function (req, res) {
 		res.json(books);
 	})
 });
+
+// ----->>> GET BOOKS IMAGES API <<<-----
+app.get('/images', function(req, res) {
+  const imgFolder = __dirname + '/public/images';
+  // REQUIRE FILE SYSTEM
+  const fs = require('fs');
+  // READ ALL FILES IN THE DIR
+  fs.readdir(imgFolder, function(err, files) {
+    if(err){
+      return console.error(err);
+    }
+    const filesArr = [];
+    files.forEach(function(file){
+      filesArr.push({name: file});
+    })
+
+    res.json(filesArr); 
+  })
+})
 //END APIs
 
 app.listen(3001, function (err) {
