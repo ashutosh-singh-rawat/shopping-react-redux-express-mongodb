@@ -5399,9 +5399,15 @@ var go = exports.go = function go(n) {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 exports.addToCart = addToCart;
 exports.deleteCartItem = deleteCartItem;
 exports.updateCart = updateCart;
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function addToCart(book) {
 	return {
 		type: 'ADD_TO_CART',
@@ -5417,11 +5423,26 @@ function deleteCartItem(cart) {
 	};
 }
 //UPDATE CART
-function updateCart(_id, unit) {
+function updateCart(_id, unit, cart) {
+	// return {
+	// 	type: 		'UPDATE_CART',
+	// 	_id:  		_id,
+	// 	unit: 		unit
+	// }
+
+	var currentItemToUpdate = cart;
+	var indexToUpdate = currentItemToUpdate.findIndex(function (cart) {
+		return cart._id === _id;
+	});
+
+	var newItemToUpdate = _extends({}, currentItemToUpdate[indexToUpdate], {
+		quantity: currentItemToUpdate[indexToUpdate].quantity + unit
+	});
+
+	var updatedCart = [].concat(_toConsumableArray(currentItemToUpdate.slice(0, indexToUpdate)), [newItemToUpdate], _toConsumableArray(currentItemToUpdate.slice(indexToUpdate + 1)));
 	return {
 		type: 'UPDATE_CART',
-		_id: _id,
-		unit: unit
+		payload: updatedCart
 	};
 }
 
@@ -13105,13 +13126,13 @@ var Cart = function (_React$Component) {
 	}, {
 		key: 'onIncrement',
 		value: function onIncrement(_id) {
-			this.props.updateCart(_id, 1);
+			this.props.updateCart(_id, 1, this.props.cart);
 		}
 	}, {
 		key: 'onDecrement',
 		value: function onDecrement(_id, quantity) {
 			if (quantity > 1) {
-				this.props.updateCart(_id, -1);
+				this.props.updateCart(_id, -1, this.props.cart);
 			}
 		}
 	}]);
@@ -35917,9 +35938,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 exports.cartReducers = cartReducers;
 exports.totals = totals;
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function cartReducers() {
 	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { cart: [] };
 	var action = arguments[1];
@@ -35947,20 +35965,27 @@ function cartReducers() {
 			break;
 
 		case 'UPDATE_CART':
-			var currentItemToUpdate = [].concat(_toConsumableArray(state.cart));
-			var indexToUpdate = currentItemToUpdate.findIndex(function (cart) {
-				return cart._id === action._id;
-			});
-
-			var newItemToUpdate = _extends({}, currentItemToUpdate[indexToUpdate], {
-				quantity: currentItemToUpdate[indexToUpdate].quantity + action.unit
-			});
-
-			var updatedCart = [].concat(_toConsumableArray(currentItemToUpdate.slice(0, indexToUpdate)), [newItemToUpdate], _toConsumableArray(currentItemToUpdate.slice(indexToUpdate + 1)));
+			// const currentItemToUpdate = [...state.cart];
+			// const indexToUpdate = currentItemToUpdate.findIndex(function(cart){
+			// 	return cart._id === action._id;
+			// });
+			//
+			// const newItemToUpdate = {
+			// 	...currentItemToUpdate[indexToUpdate],
+			// 	quantity: currentItemToUpdate[indexToUpdate].quantity + action.unit
+			// };
+			//
+			//
+			// let updatedCart = [...currentItemToUpdate.slice(0, indexToUpdate), newItemToUpdate, ...currentItemToUpdate.slice(indexToUpdate+1)]
+			// return {			...state,
+			// 	cart: 			updatedCart,
+			// 	totalAmount: 	totals(updatedCart).amount,
+			// 	totalQty: 		totals(updatedCart).qty
+			// }
 			return _extends({}, state, {
-				cart: updatedCart,
-				totalAmount: totals(updatedCart).amount,
-				totalQty: totals(updatedCart).qty
+				cart: action.payload,
+				totalAmount: totals(action.payload).amount,
+				totalQty: totals(action.payload).qty
 			});
 			break;
 	}
@@ -48298,7 +48323,7 @@ var BookItem = function (_React$Component) {
 					this.props.addToCart(book);
 				} else {
 					//UPDATE QUANTITY
-					this.props.updateCart(_id, 1);
+					this.props.updateCart(_id, 1, this.props.cart);
 				}
 			} else {
 				this.props.addToCart(book);

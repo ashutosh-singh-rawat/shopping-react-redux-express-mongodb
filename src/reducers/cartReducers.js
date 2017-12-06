@@ -7,7 +7,7 @@ export function cartReducers(state={cart: []}, action){
 			// console.log(state.cart)
 			// console.log(...action.payload)
 			// return {cart: [...state.cart, ...action.payload]};
-			return {...state, 
+			return {...state,
 				cart: 			action.payload,
 				totalAmount: 	totals(action.payload).amount,
 				totalQty: 		totals(action.payload).qty
@@ -16,7 +16,7 @@ export function cartReducers(state={cart: []}, action){
 
 		case 'DELETE_CART_ITEM':
 			// return {cart: [...state, ...action.payload]};
-			return {...state, 
+			return {...state,
 				cart: 			action.payload,
 				totalAmount: 	totals(action.payload).amount,
 				totalQty: 		totals(action.payload).qty
@@ -24,22 +24,27 @@ export function cartReducers(state={cart: []}, action){
 			break;
 
 		case 'UPDATE_CART':
-			const currentItemToUpdate = [...state.cart];
-			const indexToUpdate = currentItemToUpdate.findIndex(function(cart){
-				return cart._id === action._id;
-			});
-
-			const newItemToUpdate = {
-				...currentItemToUpdate[indexToUpdate],
-				quantity: currentItemToUpdate[indexToUpdate].quantity + action.unit
-			};
-
-
-			let updatedCart = [...currentItemToUpdate.slice(0, indexToUpdate), newItemToUpdate, ...currentItemToUpdate.slice(indexToUpdate+1)]
-			return {			...state,
-				cart: 			updatedCart,
-				totalAmount: 	totals(updatedCart).amount,
-				totalQty: 		totals(updatedCart).qty
+			// const currentItemToUpdate = [...state.cart];
+			// const indexToUpdate = currentItemToUpdate.findIndex(function(cart){
+			// 	return cart._id === action._id;
+			// });
+      //
+			// const newItemToUpdate = {
+			// 	...currentItemToUpdate[indexToUpdate],
+			// 	quantity: currentItemToUpdate[indexToUpdate].quantity + action.unit
+			// };
+      //
+      //
+			// let updatedCart = [...currentItemToUpdate.slice(0, indexToUpdate), newItemToUpdate, ...currentItemToUpdate.slice(indexToUpdate+1)]
+			// return {			...state,
+			// 	cart: 			updatedCart,
+			// 	totalAmount: 	totals(updatedCart).amount,
+			// 	totalQty: 		totals(updatedCart).qty
+			// }
+      return {			...state,
+				cart: 			   action.payload,
+				totalAmount: 	 totals(action.payload).amount,
+				totalQty: 		 totals(action.payload).qty
 			}
 			break;
 	}
