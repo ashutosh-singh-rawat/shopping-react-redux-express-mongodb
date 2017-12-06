@@ -13147,7 +13147,7 @@ var BooksForm = function (_React$Component) {
               null,
               _react2.default.createElement(
                 _reactBootstrap.FormGroup,
-                { controlId: 'title' },
+                { controlId: 'title', validationState: this.props.validation },
                 _react2.default.createElement(
                   _reactBootstrap.ControlLabel,
                   null,
@@ -13156,11 +13156,13 @@ var BooksForm = function (_React$Component) {
                 _react2.default.createElement(_reactBootstrap.FormControl, {
                   type: 'text',
                   placeholder: 'Enter Title',
-                  ref: 'title' })
+                  ref: 'title'
+                }),
+                _react2.default.createElement(_reactBootstrap.FormControl.Feedback, null)
               ),
               _react2.default.createElement(
                 _reactBootstrap.FormGroup,
-                { controlId: 'description' },
+                { controlId: 'description', validationState: this.props.validation },
                 _react2.default.createElement(
                   _reactBootstrap.ControlLabel,
                   null,
@@ -13169,11 +13171,12 @@ var BooksForm = function (_React$Component) {
                 _react2.default.createElement(_reactBootstrap.FormControl, {
                   type: 'text',
                   placeholder: 'Enter Description',
-                  ref: 'description' })
+                  ref: 'description' }),
+                _react2.default.createElement(_reactBootstrap.FormControl.Feedback, null)
               ),
               _react2.default.createElement(
                 _reactBootstrap.FormGroup,
-                { controlId: 'price' },
+                { controlId: 'price', validationState: this.props.validation },
                 _react2.default.createElement(
                   _reactBootstrap.ControlLabel,
                   null,
@@ -13182,7 +13185,8 @@ var BooksForm = function (_React$Component) {
                 _react2.default.createElement(_reactBootstrap.FormControl, {
                   type: 'text',
                   placeholder: 'Enter price',
-                  ref: 'price' })
+                  ref: 'price' }),
+                _react2.default.createElement(_reactBootstrap.FormControl.Feedback, null)
               ),
               _react2.default.createElement(
                 _reactBootstrap.Button,
@@ -13233,7 +13237,8 @@ function mapStateToProps(state) {
   return {
     books: state.books.books,
     msg: state.books.msg,
-    style: state.books.style
+    style: state.books.style,
+    validation: state.books.validation
   };
 }
 function mapDispatchToProps(dispatch) {
@@ -36066,13 +36071,26 @@ function booksReducers() {
 			// let books = state.books.concat(action.payload);
 			// return {books};
 
-			return { books: [].concat(_toConsumableArray(state.books), _toConsumableArray(action.payload)), msg: 'Saved! Click to continue', style: 'success' };
+			return _extends({}, state, {
+				books: [].concat(_toConsumableArray(state.books), _toConsumableArray(action.payload)),
+				msg: 'Saved! Click to continue',
+				style: 'success',
+				validation: 'success'
+			});
 			break;
 		case 'POST_BOOK_REJECTED':
-			return _extends({}, state, { msg: 'Please, try again', style: 'danger' });
+			return _extends({}, state, {
+				msg: 'Please, try again',
+				style: 'danger',
+				validation: 'error'
+			});
 			break;
 		case 'RESET_BUTTON':
-			return _extends({}, state, { msg: null, style: 'primary' });
+			return _extends({}, state, {
+				msg: null,
+				style: 'primary',
+				validation: null
+			});
 			break;
 
 		case 'DELETE_BOOK':
@@ -37145,6 +37163,52 @@ var BooksList = function (_React$Component) {
 			return _react2.default.createElement(
 				_reactBootstrap.Grid,
 				null,
+				_react2.default.createElement(
+					_reactBootstrap.Row,
+					null,
+					_react2.default.createElement(
+						_reactBootstrap.Carousel,
+						null,
+						_react2.default.createElement(
+							_reactBootstrap.Carousel.Item,
+							null,
+							_react2.default.createElement('img', { width: 900, height: 100, alt: '900x100', src: '/images/1.jpg' }),
+							_react2.default.createElement(
+								_reactBootstrap.Carousel.Caption,
+								null,
+								_react2.default.createElement(
+									'h3',
+									null,
+									'First slide label'
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'Nulla vitae elit libero, a pharetra augue mollis interdum.'
+								)
+							)
+						),
+						_react2.default.createElement(
+							_reactBootstrap.Carousel.Item,
+							null,
+							_react2.default.createElement('img', { width: 900, height: 100, alt: '900x100', src: '/images/2.jpg' }),
+							_react2.default.createElement(
+								_reactBootstrap.Carousel.Caption,
+								null,
+								_react2.default.createElement(
+									'h3',
+									null,
+									'Second slide label'
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+								)
+							)
+						)
+					)
+				),
 				_react2.default.createElement(
 					_reactBootstrap.Row,
 					null,
@@ -48472,12 +48536,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var BookItem = function (_React$Component) {
 	_inherits(BookItem, _React$Component);
 
-	function BookItem() {
-		_classCallCheck(this, BookItem);
-
-		return _possibleConstructorReturn(this, (BookItem.__proto__ || Object.getPrototypeOf(BookItem)).apply(this, arguments));
-	}
-
 	_createClass(BookItem, [{
 		key: 'handleCart',
 		value: function handleCart() {
@@ -48507,6 +48565,24 @@ var BookItem = function (_React$Component) {
 				this.props.addToCart(book);
 			}
 		}
+	}]);
+
+	function BookItem(props) {
+		_classCallCheck(this, BookItem);
+
+		var _this = _possibleConstructorReturn(this, (BookItem.__proto__ || Object.getPrototypeOf(BookItem)).call(this, props));
+
+		_this.state = {
+			isClicked: false
+		};
+		return _this;
+	}
+
+	_createClass(BookItem, [{
+		key: 'onReadMore',
+		value: function onReadMore() {
+			this.setState({ isClicked: true });
+		}
 	}, {
 		key: 'render',
 		value: function render() {
@@ -48532,7 +48608,12 @@ var BookItem = function (_React$Component) {
 						_react2.default.createElement(
 							'p',
 							null,
-							this.props.description
+							this.props.description.length > 50 && this.state.isClicked === false ? this.props.description.substring(0, 50) : this.props.description
+						),
+						_react2.default.createElement(
+							'button',
+							{ className: 'link', onClick: this.onReadMore.bind(this) },
+							this.state.isClicked === false && this.props.description !== null && this.props.description.length > 50 ? '....read more' : ''
 						),
 						_react2.default.createElement(
 							'h6',
@@ -48595,6 +48676,10 @@ var _footer2 = _interopRequireDefault(_footer);
 
 var _reactRedux = __webpack_require__(34);
 
+var _redux = __webpack_require__(29);
+
+var _cartActions = __webpack_require__(85);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -48613,6 +48698,11 @@ var Main = function (_React$Component) {
 	}
 
 	_createClass(Main, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.props.getCart();
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			return _react2.default.createElement(
@@ -48633,7 +48723,11 @@ function mapStateToProps(state) {
 		totalQty: state.cart.totalQty
 	};
 }
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(Main);
+
+function mapDispatchToProps(dispatch) {
+	return (0, _redux.bindActionCreators)({ getCart: _cartActions.getCart }, dispatch);
+}
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Main);
 
 /***/ }),
 /* 419 */

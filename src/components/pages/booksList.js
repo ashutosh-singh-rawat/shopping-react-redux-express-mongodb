@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getBooks} from '../../actions/booksActions';
 
-import {Grid, Row, Col, Button} from 'react-bootstrap';
+import {Carousel, Grid, Row, Col, Button} from 'react-bootstrap';
 
 import BookItem from './bookItem';
 import BooksForm from './booksForm';
@@ -33,6 +33,24 @@ class BooksList extends React.Component{
 		});
 		return(
 			<Grid>
+				<Row>
+          <Carousel>
+            <Carousel.Item>
+              <img width={900} height={100} alt="900x100" src="/images/1.jpg" />
+              <Carousel.Caption>
+                <h3>First slide label</h3>
+                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img width={900} height={100} alt="900x100" src="/images/2.jpg" />
+              <Carousel.Caption>
+                <h3>Second slide label</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+          </Carousel>
+				</Row>
 				<Row>
 					<Cart />
 				</Row>
