@@ -5,7 +5,7 @@ import {render} from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 
-import {applyMiddleware,createStore} from 'redux';
+import {applyMiddleware, createStore} from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 
@@ -20,28 +20,21 @@ import {postBooks, deleteBooks, updateBooks} from './actions/booksActions';
 
 //STEP 1 create the store
 const middleware = applyMiddleware(thunk, logger);
-const store = createStore(reducers, middleware);
+
+// WE WILL PASS INITIAL STATE FROM SERVER STORE
+const initialState = window.INITIAL_STATE;
+const store = createStore(reducers, initialState, middleware);
 
 // store.subscribe(function () {
 // 	console.log('current stage is: ', store.getState());
 // 	// console.log('current price: ', store.getState()[1].price);
 // })
 
-//IMPORT
-import BookList from './components/pages/booksList';
-import Cart from './components/pages/cart';
-import BooksForm from './components/pages/booksForm';
-import Main from './main';
 
+import routes from './routes'
 const Routes = (
 	<Provider store={store}>
-		<Router history={browserHistory}>
-			<Route path='/' component={Main} >
-				<IndexRoute component={BookList} />
-				<Route path='/cart' component={Cart} />
-				<Route path='/admin' component={BooksForm} />
-			</Route>
-		</Router>
+		{routes}
 	</Provider>
 )
 

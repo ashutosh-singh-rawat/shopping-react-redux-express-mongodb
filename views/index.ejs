@@ -6,9 +6,8 @@
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-	<div id='app-root'>
-		<%- myHtml %>
-	</div>
+	<div id='app-root'><%- reactComponent-%></div>
+	<script>window.INITIAL_STATE = <%- initialState  -%> </script>
 	<SCRIPT src="bundle.js"></SCRIPT>
 </body>
 </html>
