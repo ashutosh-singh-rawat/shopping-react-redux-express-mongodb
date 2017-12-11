@@ -21,7 +21,8 @@ app.use(cookieParser());
 
 //APIs
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/bookshop', {
+// mongoose.connect('mongodb://localhost:27017/bookshop', {
+mongoose.connect('mongodb://ashu:ashu@ds137206.mlab.com:37206/bookshop', {
   useMongoClient: true,
   /* other options */
 });
@@ -134,7 +135,7 @@ app.get('/images', function(req, res) {
       filesArr.push({name: file});
     })
 
-    res.json(filesArr); 
+    res.json(filesArr);
   })
 })
 //END APIs
